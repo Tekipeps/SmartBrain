@@ -1,6 +1,17 @@
+import { Dispatch, SetStateAction } from "react";
 import "./ImageLinkForm.css";
 
-const Imagelinkform = () => {
+interface Props {
+  input: string;
+  setInput: Dispatch<SetStateAction<string>>;
+  onButtonSubmit: () => void;
+}
+
+const Imagelinkform: React.FC<Props> = ({
+  input,
+  setInput,
+  onButtonSubmit,
+}) => {
   return (
     <div>
       <p className="f3 center">
@@ -11,11 +22,12 @@ const Imagelinkform = () => {
           <input
             className="f4 pa2 w-70 center"
             type="tex"
-            // onChange={onInputChange}
+            value={input}
+            onChange={({ target }) => setInput(target.value)}
           />
           <button
             className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple"
-            // onClick={onButtonSubmit}
+            onClick={onButtonSubmit}
           >
             Detect
           </button>
