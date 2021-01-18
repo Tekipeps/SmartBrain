@@ -3,5 +3,12 @@
     "start": "node server.js",
     "start-client": "cd ./client && yarn start",
     "build-client": "cd ./client && yarn build"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "eslint-config-standard": "^16.0.2",
+    "express": "^4.17.1",
+    "knex": "^0.21.16"
   }
 }
