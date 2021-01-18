@@ -5,13 +5,22 @@ interface Props {
   updateRoute: (path: Route) => void;
 }
 
-const SignIn: React.FC<Props> = ({ updateRoute }) => {
+const SignUp: React.FC<Props> = ({ updateRoute }) => {
   return (
     <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
       <main className="pa4 black-80">
         <form className="measure">
           <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-            <legend className="f4 fw6 ph0 mh0">Sign In</legend>
+            <legend className="f4 fw6 ph0 mh0">Sign Up</legend>
+            <div className="mt3">
+              <label className="db fw6 lh-copy f6">Name</label>
+              <input
+                className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                type="text"
+                name="username"
+                id="username"
+              />
+            </div>
             <div className="mt3">
               <label className="db fw6 lh-copy f6">Email</label>
               <input
@@ -35,17 +44,17 @@ const SignIn: React.FC<Props> = ({ updateRoute }) => {
             <input
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
               type="submit"
-              value="Sign in"
+              value="Sign up"
               onClick={() => updateRoute(Route.HOME)}
             />
           </div>
           <div className="lh-copy mt3">
             <a
-              onClick={() => updateRoute(Route.SIGN_UP)}
+              onClick={() => updateRoute(Route.SIGN_IN)}
               href="#0"
               className="f6 link dim black db"
             >
-              Sign up
+              Sign in
             </a>
           </div>
         </form>
@@ -54,4 +63,4 @@ const SignIn: React.FC<Props> = ({ updateRoute }) => {
   );
 };
 
-export default SignIn;
+export default SignUp;

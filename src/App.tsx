@@ -5,6 +5,7 @@ import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import FaceRecogniton from "./components/FaceRecogniton/FaceRecogniton";
 import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp/SignUp";
 import Rank from "./components/Rank/Rank";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
@@ -27,7 +28,7 @@ const particlesOptions = {
 };
 
 function App() {
-  const [route, setRoute] = React.useState<Route>(Route.HOME);
+  const [route, setRoute] = React.useState<Route>(Route.SIGN_IN);
   const [faces, setFaces] = React.useState<Box[] | []>([]);
   const [input, setInput] = React.useState<string>("");
   const [imageUrl, setImageUrl] = React.useState<string>("");
@@ -83,6 +84,12 @@ function App() {
         <>
           <Logo />
           <SignIn updateRoute={updateRoute} />
+        </>
+      )}
+      {route === Route.SIGN_UP && (
+        <>
+          <Logo />
+          <SignUp updateRoute={updateRoute} />
         </>
       )}
       {route === Route.HOME && (
