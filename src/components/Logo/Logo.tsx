@@ -5,7 +5,7 @@ import brain from "./brain.png";
 const Logo: React.FC = ({ children }) => {
   return (
     <div
-      className="ma4 mt2"
+      className="ma4 mt0"
       style={{
         display: "flex",
         justifyContent: "space-between",

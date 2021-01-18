@@ -79,22 +79,20 @@ function App() {
   return (
     <div className="App">
       <Particles className="particles" params={particlesOptions} />
+      <Navigation updateRoute={updateRoute} route={route} />
 
       {route === Route.SIGN_IN && (
         <>
-          <Logo />
           <SignIn updateRoute={updateRoute} />
         </>
       )}
       {route === Route.SIGN_UP && (
         <>
-          <Logo />
           <SignUp updateRoute={updateRoute} />
         </>
       )}
       {route === Route.HOME && (
         <>
-          <Navigation updateRoute={updateRoute} />
           <Logo>
             <Rank />
           </Logo>

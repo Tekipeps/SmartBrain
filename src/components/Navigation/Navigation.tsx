@@ -3,17 +3,35 @@ import { Route } from "../../types";
 
 interface Props {
   updateRoute: (path: Route) => void;
+  route: Route;
 }
 
-const Navigation: React.FC<Props> = ({ updateRoute }) => {
+const Navigation: React.FC<Props> = ({ updateRoute, route }) => {
   return (
     <nav style={{ display: "flex", justifyContent: "flex-end" }}>
-      <p
-        onClick={() => updateRoute(Route.SIGN_IN)}
-        className="f3 link dim black underline pa3 pointer"
-      >
-        sign out
-      </p>
+      {route === Route.HOME ? (
+        <p
+          onClick={() => updateRoute(Route.SIGN_IN)}
+          className="f3 link dim black underline pa3 pointer"
+        >
+          Sign out
+        </p>
+      ) : (
+        <>
+          <p
+            onClick={() => updateRoute(Route.SIGN_IN)}
+            className="f3 link dim black underline pa3 pointer"
+          >
+            Sign in
+          </p>
+          <p
+            onClick={() => updateRoute(Route.SIGN_UP)}
+            className="f3 link dim black underline pa3 pointer"
+          >
+            Register
+          </p>
+        </>
+      )}
     </nav>
   );
 };

@@ -40,13 +40,12 @@ const SignIn: React.FC<Props> = ({ updateRoute }) => {
             />
           </div>
           <div className="lh-copy mt3">
-            <a
+            <p
               onClick={() => updateRoute(Route.SIGN_UP)}
-              href="#0"
-              className="f6 link dim black db"
+              className="f6 link dim black db pointer"
             >
-              Sign up
-            </a>
+              Register
+            </p>
           </div>
         </form>
       </main>
