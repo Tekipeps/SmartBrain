@@ -4,10 +4,11 @@ import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import FaceRecogniton from "./components/FaceRecogniton/FaceRecogniton";
+import SignIn from "./components/SignIn/SignIn";
 import Rank from "./components/Rank/Rank";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
-import { Box } from "./types";
+import { Box, Route } from "./types";
 
 const app = new Clarifai.App({
   apiKey: "ca95d6f5a3cb480f85bf4d65fe5dc41e",
@@ -26,6 +27,7 @@ const particlesOptions = {
 };
 
 function App() {
+  const [route, setRoute] = React.useState<Route>(Route.HOME);
   const [faces, setFaces] = React.useState<Box[] | []>([]);
   const [input, setInput] = React.useState<string>("");
   const [imageUrl, setImageUrl] = React.useState<string>("");
@@ -33,6 +35,10 @@ function App() {
   const updateInput = (value: string) => {
     setInput(value);
     setImageUrl("");
+  };
+
+  const updateRoute = (path: Route) => {
+    setRoute(path);
   };
 
   const calculateFaceLocation = (data: {
@@ -71,17 +77,28 @@ function App() {
 
   return (
     <div className="App">
-      <Navigation />
       <Particles className="particles" params={particlesOptions} />
-      <Logo>
-        <Rank />
-      </Logo>
-      <ImageLinkForm
-        onButtonSubmit={onButtonSubmit}
-        input={input}
-        updateInput={updateInput}
-      />
-      <FaceRecogniton boxes={faces} imageUrl={imageUrl} />
+
+      {route === Route.SIGN_IN && (
+        <>
+          <Logo />
+          <SignIn updateRoute={updateRoute} />
+        </>
+      )}
+      {route === Route.HOME && (
+        <>
+          <Navigation updateRoute={updateRoute} />
+          <Logo>
+            <Rank />
+          </Logo>
+          <ImageLinkForm
+            onButtonSubmit={onButtonSubmit}
+            input={input}
+            updateInput={updateInput}
+          />
+          <FaceRecogniton boxes={faces} imageUrl={imageUrl} />
+        </>
+      )}
     </div>
   );
 }
