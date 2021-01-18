@@ -3,9 +3,11 @@ import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
+import FaceRecogniton from "./components/FaceRecogniton/FaceRecogniton";
 import Rank from "./components/Rank/Rank";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
+import { Box } from "./types";
 
 const app = new Clarifai.App({
   apiKey: "ca95d6f5a3cb480f85bf4d65fe5dc41e",
@@ -22,20 +24,51 @@ const particlesOptions = {
     },
   },
 };
+
 function App() {
+  const [faces, setFaces] = React.useState<Box[] | []>([]);
   const [input, setInput] = React.useState<string>("");
+  const [imageUrl, setImageUrl] = React.useState<string>("");
+
+  const updateInput = (value: string) => {
+    setInput(value);
+    setImageUrl("");
+  };
+
+  const calculateFaceLocation = (data: {
+    left_col: number;
+    top_row: number;
+    right_col: number;
+    bottom_row: number;
+  }): Box => {
+    const clarifaiFace = data;
+    const image = document.getElementById("inputImage");
+    const width = Number(image!.offsetWidth);
+    const height = Number(image!.offsetHeight);
+
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - clarifaiFace.right_col * width,
+      bottomRow: height - clarifaiFace.bottom_row * height,
+    };
+  };
+
   const onButtonSubmit = () => {
-    // console.log(`click ${input}`);
+    setImageUrl(input);
     app.models
-      .predict(
-        "d02b4508df58432fbb84e800597b8959",
-        "https://samples.clarifai.com/face-det.jpg"
-      )
-      .then(function (response: any) {
-        console.log(response);
+      .predict(Clarifai.FACE_DETECT_MODEL, input)
+      .then((response: any) => {
+        setFaces(
+          response.outputs[0].data.regions.map(
+            ({ region_info }: { region_info: any }) =>
+              calculateFaceLocation(region_info.bounding_box)
+          )
+        );
       })
       .catch((error: any) => console.log(error));
   };
+
   return (
     <div className="App">
       <Navigation />
@@ -43,13 +76,12 @@ function App() {
       <Logo>
         <Rank />
       </Logo>
-
       <ImageLinkForm
         onButtonSubmit={onButtonSubmit}
         input={input}
-        setInput={setInput}
+        updateInput={updateInput}
       />
-      {/* <FaceRecogniton /> */}
+      <FaceRecogniton boxes={faces} imageUrl={imageUrl} />
     </div>
   );
 }
