@@ -21,6 +21,7 @@ const Imagelinkform: React.FC<Props> = ({
           <input
             className="f4 pa2 w-70 center"
             type="tex"
+            placeholder="Input a url to an image"
             value={input}
             onChange={({ target }) => updateInput(target.value)}
           />
