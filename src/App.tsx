@@ -12,7 +12,7 @@ import Clarifai from "clarifai";
 import { Box, Route } from "./types";
 
 const app = new Clarifai.App({
-  apiKey: "ca95d6f5a3cb480f85bf4d65fe5dc41e",
+  apiKey: process.env.REACT_APP_CLARIFAI_KEY,
 });
 
 const particlesOptions = {
