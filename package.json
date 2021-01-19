@@ -2,6 +2,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "install:client": "cd ./client && yarn install",
     "start:client": "cd ./client && yarn start",
     "build:client": "cd ./client && yarn build",
     "db:seed": "node ./prisma/seed.js",

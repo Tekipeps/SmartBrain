@@ -11,6 +11,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const nonSensitiveUser = {
+  id: true,
+  email: true,
+  name: true,
+  entries: true,
+  joined: true,
+};
+
 app.get("/", (_req, res) => {
   res.send("Welcome to SmartBrain API!");
 });
@@ -30,6 +38,7 @@ app.post("/register", async (req, res) => {
         name,
         password: hashedPass,
       },
+      select: nonSensitiveUser,
     });
 
     const token = jwt.sign(
@@ -76,8 +85,17 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.get("/profile/:id", (req, res) => {
-  res.json({ msg: "user profile" });
+app.get("/user/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.findUnique({
+      where: { id: Number(id) },
+      select: nonSensitiveUser,
+    });
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.put("/image", (req, res) => {
