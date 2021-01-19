@@ -16,21 +16,21 @@ const users = [
   },
 ];
 
-const seed = async () => {
+(async () => {
   try {
-    const promises = users.map((user) =>
-      prisma.user.create({
+    const promises = users.map(async (user) => {
+      const hashedPass = await bcrypt.hash(user.password, 10);
+      return prisma.user.create({
         data: {
           ...user,
-          password: bcrypt.hashSync(user.password, 10),
+          password: hashedPass,
         },
-      })
-    );
+      });
+    });
     const result = await Promise.all(promises);
     console.log(result);
     prisma.$disconnect();
   } catch (error) {
     console.log(error);
   }
-};
-seed();
+})();
