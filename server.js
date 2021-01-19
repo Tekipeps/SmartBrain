@@ -23,7 +23,7 @@ app.get("/", (_req, res) => {
   res.send("Welcome to SmartBrain API!");
 });
 
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
   try {
     const { email, password, name } = req.body;
     if (!email || !password || !name) {
@@ -31,7 +31,7 @@ app.post("/register", async (req, res) => {
         .status(400)
         .json({ error: "`email`, `password` and `name` is required" });
     }
-    const hashedPass = await bcrypt.hash(password);
+    const hashedPass = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
         email,
@@ -51,7 +51,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/signin", async (req, res) => {
+app.post("/api/signin", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -79,7 +79,7 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-app.get("/user", async (req, res) => {
+app.get("/api/user", async (req, res) => {
   try {
     const user = await prisma.user.findMany({
       select: nonSensitiveUser,
@@ -90,7 +90,7 @@ app.get("/user", async (req, res) => {
   }
 });
 
-app.get("/user/:id", async (req, res) => {
+app.get("/api/user/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const user = await prisma.user.findUnique({
@@ -103,7 +103,7 @@ app.get("/user/:id", async (req, res) => {
   }
 });
 
-app.put("/image", async (req, res) => {
+app.put("/api/image", async (req, res) => {
   try {
     const { id } = req.body;
     if (!id) {

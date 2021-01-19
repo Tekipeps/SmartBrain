@@ -80,10 +80,23 @@ function App() {
   };
 
   const login = async (email: string, password: string) => {
-    const res = await authService.signIn(email, password);
-    console.log(res);
-    localStorage.setItem("token", res.token);
-    updateRoute(Route.HOME);
+    try {
+      const res = await authService.signIn(email, password);
+      localStorage.setItem("token", res.token);
+      updateRoute(Route.HOME);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const register = async (email: string, password: string, name: string) => {
+    try {
+      const res = await authService.signUp(email, password, name);
+      localStorage.setItem("token", res.token);
+      updateRoute(Route.HOME);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -98,7 +111,7 @@ function App() {
       )}
       {route === Route.SIGN_UP && (
         <>
-          <SignUp updateRoute={updateRoute} />
+          <SignUp onRegister={register} />
         </>
       )}
       {route === Route.HOME && (

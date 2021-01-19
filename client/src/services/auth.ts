@@ -9,5 +9,14 @@ const signIn = async (email: string, password: string) => {
   return response.data;
 };
 
-const auth = { signIn };
+const signUp = async (email: string, password: string, name: string) => {
+  const response = await axios.post(`${SERVER_URL}/register`, {
+    email,
+    name,
+    password,
+  });
+  return response.data;
+};
+
+const auth = { signIn, signUp };
 export default auth;
