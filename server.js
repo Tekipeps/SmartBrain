@@ -67,7 +67,7 @@ app.post("/api/signin", async (req, res) => {
     }
     const isValidPass = await bcrypt.compare(password, user.password);
     if (!isValidPass) {
-      return res.status(401).json({ error: "password incorrect" });
+      return res.status(401).json({ error: "Password incorrect" });
     }
     const token = jwt.sign(
       { id: user.id, name: user.name },

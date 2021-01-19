@@ -35,6 +35,7 @@ function App() {
   const [faces, setFaces] = React.useState<Box[] | []>([]);
   const [input, setInput] = React.useState<string>("");
   const [imageUrl, setImageUrl] = React.useState<string>("");
+  const [error, setError] = React.useState<string | null>(null);
 
   const updateInput = (value: string) => {
     setInput(value);
@@ -85,7 +86,8 @@ function App() {
       localStorage.setItem("token", res.token);
       updateRoute(Route.HOME);
     } catch (error) {
-      console.log(error);
+      setError(String(error.response.data.error));
+      setTimeout(() => setError(null), 5000);
     }
   };
 
@@ -95,7 +97,8 @@ function App() {
       localStorage.setItem("token", res.token);
       updateRoute(Route.HOME);
     } catch (error) {
-      console.log(error);
+      setError(String(error.response.data.error));
+      setTimeout(() => setError(null), 5000);
     }
   };
 
@@ -103,7 +106,20 @@ function App() {
     <div className="App">
       <Particles className="particles" params={particlesOptions} />
       <Navigation updateRoute={updateRoute} route={route} />
-
+      {error && (
+        <div className="flex items-center justify-center pa2 bg-moon-gray navy o-80">
+          <svg
+            className="w1"
+            data-icon="info"
+            viewBox="0 0 32 32"
+            style={{ fill: "currentcolor" }}
+          >
+            <title>info icon</title>
+            <path d="M16 0 A16 16 0 0 1 16 32 A16 16 0 0 1 16 0 M19 15 L13 15 L13 26 L19 26 z M16 6 A3 3 0 0 0 16 12 A3 3 0 0 0 16 6"></path>
+          </svg>
+          <span className="lh-title ml3">{error}</span>
+        </div>
+      )}
       {route === Route.SIGN_IN && (
         <>
           <SignIn updateRoute={updateRoute} onLogin={login} />
