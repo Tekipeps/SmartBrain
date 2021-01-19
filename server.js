@@ -85,6 +85,17 @@ app.post("/signin", async (req, res) => {
   }
 });
 
+app.get("/user", async (req, res) => {
+  try {
+    const user = await prisma.user.findMany({
+      select: nonSensitiveUser,
+    });
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 app.get("/user/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -98,8 +109,29 @@ app.get("/user/:id", async (req, res) => {
   }
 });
 
-app.put("/image", (req, res) => {
-  res.json({ msg: "incremeted entries" });
+app.put("/image", async (req, res) => {
+  try {
+    const { id } = req.body;
+    if (!id) {
+      return res.status(400).json({ error: "`id` is required" });
+    }
+    const { entries } = await prisma.user.findUnique({
+      where: { id },
+      select: { entries: true },
+    });
+    const user = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        entries: entries + 1,
+      },
+      select: nonSensitiveUser,
+    });
+    res.json({ user });
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 const PORT = process.env.PORT || 5000;
