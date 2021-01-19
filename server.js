@@ -43,10 +43,7 @@ app.post("/register", async (req, res) => {
 
     const token = jwt.sign(
       { id: user.id, name: user.name },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "2 days",
-      }
+      process.env.JWT_SECRET
     );
     res.send({ user, token });
   } catch (error) {
@@ -74,10 +71,7 @@ app.post("/signin", async (req, res) => {
     }
     const token = jwt.sign(
       { id: user.id, name: user.name },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "2 days",
-      }
+      process.env.JWT_SECRET
     );
     res.json({ token, user: { name: user.name, id: user.id } });
   } catch (error) {

@@ -9,6 +9,7 @@ import SignUp from "./components/SignUp/SignUp";
 import Rank from "./components/Rank/Rank";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
+import authService from "./services/auth";
 import { Box, Route } from "./types";
 
 const app = new Clarifai.App({
@@ -28,7 +29,9 @@ const particlesOptions = {
 };
 
 function App() {
-  const [route, setRoute] = React.useState<Route>(Route.SIGN_IN);
+  const [route, setRoute] = React.useState<Route>(
+    localStorage.getItem("token") ? Route.HOME : Route.SIGN_IN
+  );
   const [faces, setFaces] = React.useState<Box[] | []>([]);
   const [input, setInput] = React.useState<string>("");
   const [imageUrl, setImageUrl] = React.useState<string>("");
@@ -61,7 +64,7 @@ function App() {
     };
   };
 
-  const onButtonSubmit = () => {
+  const onDetectSubmit = () => {
     setImageUrl(input);
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, input)
@@ -76,6 +79,13 @@ function App() {
       .catch((error: any) => console.log(error));
   };
 
+  const login = async (email: string, password: string) => {
+    const res = await authService.signIn(email, password);
+    console.log(res);
+    localStorage.setItem("token", res.token);
+    updateRoute(Route.HOME);
+  };
+
   return (
     <div className="App">
       <Particles className="particles" params={particlesOptions} />
@@ -83,7 +93,7 @@ function App() {
 
       {route === Route.SIGN_IN && (
         <>
-          <SignIn updateRoute={updateRoute} />
+          <SignIn updateRoute={updateRoute} onLogin={login} />
         </>
       )}
       {route === Route.SIGN_UP && (
@@ -97,7 +107,7 @@ function App() {
             <Rank />
           </Logo>
           <ImageLinkForm
-            onButtonSubmit={onButtonSubmit}
+            onButtonSubmit={onDetectSubmit}
             input={input}
             updateInput={updateInput}
           />

@@ -5,6 +5,11 @@ export interface Box {
   bottomRow: number;
 }
 
+export const SERVER_URL =
+  process.env.NODE_ENV === "production"
+    ? "http://localhost:5000"
+    : "http://localhost:5000";
+
 export function isUndefined(x: any): x is undefined {
   return typeof x === "undefined";
 }

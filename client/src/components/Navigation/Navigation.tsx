@@ -11,7 +11,10 @@ const Navigation: React.FC<Props> = ({ updateRoute, route }) => {
     <nav style={{ display: "flex", justifyContent: "flex-end" }}>
       {route === Route.HOME ? (
         <p
-          onClick={() => updateRoute(Route.SIGN_IN)}
+          onClick={() => {
+            localStorage.clear();
+            updateRoute(Route.SIGN_IN);
+          }}
           className="f3 link dim black underline pa3 pointer"
         >
           Sign out
