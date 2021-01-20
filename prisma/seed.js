@@ -29,8 +29,7 @@ const users = [
     });
     const result = await Promise.all(promises);
     console.log(result);
-    prisma.$disconnect();
   } catch (error) {
-    console.log(error);
+    prisma.$disconnect();
   }
 })();

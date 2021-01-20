@@ -36,6 +36,7 @@ function App() {
   const [input, setInput] = React.useState<string>("");
   const [imageUrl, setImageUrl] = React.useState<string>("");
   const [error, setError] = React.useState<string | null>(null);
+  const [user, setUser] = React.useState<any>();
 
   const updateInput = (value: string) => {
     setInput(value);
@@ -84,6 +85,8 @@ function App() {
     try {
       const res = await authService.signIn(email, password);
       localStorage.setItem("token", res.token);
+      localStorage.setItem("user", res.user);
+      setUser(res.user);
       updateRoute(Route.HOME);
     } catch (error) {
       setError(String(error.response.data.error));
@@ -95,6 +98,8 @@ function App() {
     try {
       const res = await authService.signUp(email, password, name);
       localStorage.setItem("token", res.token);
+      localStorage.setItem("user", res.user);
+      setUser(res.user);
       updateRoute(Route.HOME);
     } catch (error) {
       setError(String(error.response.data.error));
@@ -133,7 +138,7 @@ function App() {
       {route === Route.HOME && (
         <>
           <Logo>
-            <Rank />
+            <Rank rank={4} name={String(user?.name)} />
           </Logo>
           <ImageLinkForm
             onButtonSubmit={onDetectSubmit}

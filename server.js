@@ -10,6 +10,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("./client/build"));
 
 const nonSensitiveUser = {
   id: true,
@@ -45,7 +46,7 @@ app.post("/api/register", async (req, res) => {
       { id: user.id, name: user.name },
       process.env.JWT_SECRET
     );
-    res.send({ user, token });
+    res.send({ user: { name: user.name, id: user.id }, token });
   } catch (error) {
     console.log(error);
   }
