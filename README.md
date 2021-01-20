@@ -2,6 +2,8 @@
 
 Face Detaction using Clarifai API [visit](https://smt-brain-app.herokuapp.com/)
 
+![](./sample.png)
+
 ### Development
 
 ```bash
