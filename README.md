@@ -1,6 +1,6 @@
 ## SmartBrain
 
-Face Detaction using Clarifai API [visit](https://smt-brain-app.herokuapp.com/)
+Face Detection using Clarifai API [visit](https://smt-brain-app.herokuapp.com/)
 
 ![](./sample.png)
 
